@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Задание 1 — Моя викторина</title>
+  <link rel="stylesheet" href="assets/styles.css" />
+</head>
+<body>
+  <div class="container">
+  <nav class="nav">
+    <a href="index.html">Главная</a>
+    <a href="z.html">Задание 1</a>
+    <a href="task_2_1.php">2.1</a>
+    <a href="task_2_2.php">2.2</a>
+    <a href="task_2_3.php">2.3</a>
+    <a href="task_2_4.php">2.4</a>
+    <a href="task_2_5.php">2.5</a>
+    <a href="task_3_1.php">3.1</a>
+    <a href="task_3_2.php">3.2</a>
+  </nav>
+
+  <header>
+    <h1>Задание 1. Моя викторина</h1>
+    <p class="muted">Не менее 10 уникальных вопросов. Подсчёт верных, неверных и пропущенных выполняется на PHP (используются <code>isset()</code> и <code>+=</code>)</p>
+  </header>
+
+  
+
+  <form action="quiz_process.php" method="post" class="card">
+    <input type="hidden" name="token" value="quiz_v1" />
+
+    <fieldset>
+      <legend>1. Сколько дней в високосном году? (свободный ответ)</legend>
+      <input type="text" name="q1" placeholder="Например: 366" />
+    </fieldset>
+
+    <fieldset>
+      <legend>2. Выберите все способы подключения CSS (несколько)</legend>
+      <label class="row"><input type="checkbox" name="q2[]" value="word" /> Редактирование объекта в Word</label>
+      <label class="row"><input type="checkbox" name="q2[]" value="style-tag" /> Тег стилей &lt;style&gt; в HTML</label>
+      <label class="row"><input type="checkbox" name="q2[]" value="css-file" /> Отдельный файл *.css</label>
+      <label class="row"><input type="checkbox" name="q2[]" value="style-attr" /> Атрибут style="..." в теге</label>
+      <label class="row"><input type="checkbox" name="q2[]" value="presentational-attrs" /> Атрибуты оформления в теге</label>
+    </fieldset>
+
+    <fieldset>
+      <legend>3. Когда будет завтра? (свободный ответ)</legend>
+      <input type="text" name="q3" placeholder="например: завтра" />
+    </fieldset>
+
+    <fieldset>
+      <legend>4. Какой протокол используется для веб-страниц?</legend>
+      <label class="row"><input type="radio" name="q4" value="ftp" /> FTP</label>
+      <label class="row"><input type="radio" name="q4" value="http" /> HTTP/HTTPS</label>
+      <label class="row"><input type="radio" name="q4" value="smtp" /> SMTP</label>
+    </fieldset>
+
+    <fieldset>
+      <legend>5. Сколько байт в килобайте (IEC, KiB)?</legend>
+      <select name="q5">
+        <option value="">— выберите —</option>
+        <option value="1000">1000</option>
+        <option value="1024">1024</option>
+        <option value="2048">2048</option>
+      </select>
+    </fieldset>
+
+    <fieldset>
+      <legend>6. Что такое PHP?</legend>
+      <label class="row"><input type="radio" name="q6" value="language" /> Язык программирования</label>
+      <label class="row"><input type="radio" name="q6" value="db" /> База данных</label>
+      <label class="row"><input type="radio" name="q6" value="os" /> Операционная система</label>
+    </fieldset>
+
+    <fieldset>
+      <legend>7. Укажите год выхода первой версии PHP (свободный ответ)</legend>
+      <input type="text" name="q7" placeholder="например: 1995" />
+    </fieldset>
+
+    <fieldset>
+      <legend>8. Сколько будет 2 + 2 · 2? (свободный ответ)</legend>
+      <input type="text" name="q8" placeholder="например: 6" />
+    </fieldset>
+
+    <fieldset>
+      <legend>9. Что означает аббревиатура HTML?</legend>
+      <label class="row"><input type="radio" name="q9" value="markup" /> HyperText Markup Language</label>
+      <label class="row"><input type="radio" name="q9" value="machine" /> Hyper Translator Machine Language</label>
+      <label class="row"><input type="radio" name="q9" value="mail" /> Hot Mail</label>
+    </fieldset>
+
+    <fieldset>
+      <legend>10. Как называется тип ввода для выбора одного варианта?</legend>
+      <select name="q10">
+        <option value="">— выберите —</option>
+        <option value="checkbox">checkbox</option>
+        <option value="radio">radio</option>
+        <option value="text">text</option>
+      </select>
+    </fieldset>
+
+    <fieldset>
+      <legend>11. Какие коды состояния HTTP означают успешный результат? (несколько)</legend>
+      <label class="row"><input type="checkbox" name="q11[]" value="200" /> 200 OK</label>
+      <label class="row"><input type="checkbox" name="q11[]" value="201" /> 201 Created</label>
+      <label class="row"><input type="checkbox" name="q11[]" value="204" /> 204 No Content</label>
+      <label class="row"><input type="checkbox" name="q11[]" value="301" /> 301 Moved Permanently</label>
+      <label class="row"><input type="checkbox" name="q11[]" value="404" /> 404 Not Found</label>
+    </fieldset>
+
+    <fieldset>
+      <legend>12. Какой оператор выполняет строгое сравнение по значению и типу?</legend>
+      <label class="row"><input type="radio" name="q12" value="==" /> ==</label>
+      <label class="row"><input type="radio" name="q12" value="===" /> ===</label>
+      <label class="row"><input type="radio" name="q12" value="=" /> =</label>
+      <label class="row"><input type="radio" name="q12" value="!=" /> !=</label>
+    </fieldset>
+
+    <fieldset>
+      <legend>13. Чему равно выражение в PHP: echo 2 + "3"; ?</legend>
+      <input type="text" name="q13" placeholder="например: 5" />
+    </fieldset>
+
+    <fieldset>
+      <legend>14. Как добавить элемент в конец массива <code>$a</code>? (несколько)</legend>
+      <label class="row"><input type="checkbox" name="q14[]" value="append_square" /> $a[] = 10;</label>
+      <label class="row"><input type="checkbox" name="q14[]" value="array_push" /> array_push($a, 10);</label>
+      <label class="row"><input type="checkbox" name="q14[]" value="array_unshift" /> array_unshift($a, 10);</label>
+      <label class="row"><input type="checkbox" name="q14[]" value="add_last" /> add_last($a, 10);</label>
+    </fieldset>
+
+    <fieldset>
+      <legend>15. Какой <code>enctype</code> нужно указать у формы для загрузки файлов?</legend>
+      <select name="q15">
+        <option value="">— выберите —</option>
+        <option value="multipart/form-data">multipart/form-data</option>
+        <option value="application/json">application/json</option>
+        <option value="text/plain">text/plain</option>
+      </select>
+    </fieldset>
+
+    <div>
+      <button class="btn" type="submit">Проверить ответы</button>
+      <button class="btn" type="reset" style="margin-left:.5rem;background:rgba(255,255,255,.08);border:1px solid var(--border);color:var(--text)">Сбросить</button>
+    </div>
+  </form>
+  </div>
+</body>
+</html>

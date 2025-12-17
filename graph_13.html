@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Задание 2.4 — График (вариант 8-3)</title>
+  <link rel="stylesheet" href="assets/styles.css" />
+  <script>
+    // helper to format number with fixed decimals
+    function nf(v, d=2){ return (+v).toFixed(d); }
+  </script>
+  <link rel="stylesheet" href="assets/styles.css" />
+</head>
+<body>
+  <div class="container">
+  <nav class="nav">
+    <a href="index.html">Задание 1</a>
+    <a href="task_2_1.php">2.1</a>
+    <a href="task_2_2.php">2.2</a>
+    <a href="task_2_3.php">2.3</a>
+    <a href="graph_13.html">2.4 (график)</a>
+  </nav>
+
+  <h1>Задание 2.4 — Вариант 8-3</h1>
+  <p class="muted">Функция: y = 3 − 2x². Быстрый пресет: <a class="btn-outline" id="preset">Вариант 8-3</a></p>
+
+  <div class="card" style="margin-bottom:1rem;display:flex;gap:.8rem;flex-wrap:wrap;align-items:center">
+    <label> a: <input type="number" id="a" step="0.1" value="-1" /></label>
+    <label> b: <input type="number" id="b" step="0.1" value="3" /></label>
+    <label> шаг h: <input type="number" id="h" step="0.01" value="0.10" /></label>
+    <a class="btn" id="apply" href="#">Перестроить</a>
+    <span class="muted" id="meta"></span>
+  </div>
+
+  <canvas id="c" width="800" height="520"></canvas>
+
+  <script>
+    // Рисование с параметрами
+    const canvas = document.getElementById('c');
+    const ctx = canvas.getContext('2d');
+    const W = canvas.width, H = canvas.height;
+
+    function f(x){ return 3 - 2*x*x; }
+
+    function draw(xmin, xmax, steps){
+      steps = Math.max(2, Math.min(10000, steps||600));
+      // оценим ymin/ymax
+      let ymin = Infinity, ymax = -Infinity;
+      for(let i=0;i<=1000;i++){
+        const x = xmin + (xmax-xmin)*i/1000;
+        const y = f(x);
+        if(y<ymin) ymin = y; if(y>ymax) ymax = y;
+      }
+      const padY = 0.2*((ymax - ymin) || 1);
+      ymin -= padY; ymax += padY;
+
+      const L = 60, R = 20, T = 20, B = 40;
+      const plotW = W - L - R, plotH = H - T - B;
+      const x2px = x => L + (x - xmin) * plotW / (xmax - xmin);
+      const y2py = y => T + (ymax - y) * plotH / (ymax - ymin);
+
+      ctx.clearRect(0,0,W,H);
+      ctx.fillStyle = '#ffffff';
+      ctx.fillRect(0,0,W,H);
+
+      // сетка
+      ctx.strokeStyle = '#cccccc'; ctx.lineWidth = 1;
+      ctx.beginPath();
+      const gridX = 8, gridY = 6;
+      for(let i=0;i<=gridX;i++){
+        const gx = L + plotW*i/gridX; ctx.moveTo(gx, T); ctx.lineTo(gx, T+plotH);
+      }
+      for(let j=0;j<=gridY;j++){
+        const gy = T + plotH*j/gridY; ctx.moveTo(L, gy); ctx.lineTo(L+plotW, gy);
+      }
+      ctx.stroke();
+
+      // оси
+      ctx.strokeStyle = '#000000'; ctx.lineWidth = 1.5; ctx.beginPath();
+      const y0 = (ymin<=0 && ymax>=0) ? y2py(0) : y2py(ymin);
+      ctx.moveTo(L, y0); ctx.lineTo(L+plotW, y0);
+      const x0 = (xmin<=0 && xmax>=0) ? x2px(0) : x2px(xmin);
+      ctx.moveTo(x0, T); ctx.lineTo(x0, T+plotH); ctx.stroke();
+
+      // подписи
+      ctx.fillStyle = '#000000'; ctx.font = '12px Arial, sans-serif';
+      const ticks = 8;
+      for(let i=0;i<=ticks;i++){
+        const x = xmin + (xmax-xmin)*i/ticks; const px = x2px(x);
+        ctx.fillText(x.toFixed(2), px-12, y0+14);
+      }
+      for(let j=0;j<=ticks;j++){
+        const y = ymin + (ymax-ymin)*j/ticks; const py = y2py(y);
+        ctx.fillText(y.toFixed(2), x0+6, py-4);
+      }
+
+      // график
+      // линия графика
+      ctx.strokeStyle = '#000000'; ctx.lineWidth = 2.0; ctx.beginPath();
+      let first = true;
+      for(let i=0;i<=steps;i++){
+        const x = xmin + (xmax-xmin)*i/steps; const y = f(x);
+        const px = x2px(x), py = y2py(y);
+        if(first){ ctx.moveTo(px, py); first=false; } else { ctx.lineTo(px, py); }
+      }
+      ctx.stroke();
+
+      // точки дискретизации — для наглядности шага h
+      ctx.fillStyle = 'rgba(0,0,0,0.8)';
+      for(let i=0;i<=steps;i++){
+        const x = xmin + (xmax-xmin)*i/steps; const y = f(x);
+        const px = x2px(x), py = y2py(y);
+        ctx.beginPath(); ctx.arc(px, py, 2.2, 0, Math.PI*2); ctx.fill();
+      }
+
+      ctx.fillStyle = '#000000'; ctx.font = 'bold 14px Arial, sans-serif';
+      ctx.fillText(`y = 3 − 2x²,  x ∈ [${xmin.toFixed(2)}, ${xmax.toFixed(2)}]`, L, 18);
+    }
+
+    // controls
+    const aI = document.getElementById('a');
+    const bI = document.getElementById('b');
+    const hI = document.getElementById('h');
+    const apply = document.getElementById('apply');
+    const preset = document.getElementById('preset');
+    const meta = document.getElementById('meta');
+
+    const pfloat = (v)=> parseFloat(String(v).replace(',', '.'));
+    function rebuild(){
+      let a = pfloat(aI.value), b = pfloat(bI.value), h = pfloat(hI.value);
+      if (!(h>0)) h = 0.1;
+      if (a>b) { const t=a; a=b; b=t; }
+      aI.value = nf(a,1); bI.value = nf(b,1); hI.value = nf(h,2);
+      const steps = Math.min(10000, Math.max(2, Math.floor((b-a)/h)+1));
+      meta.textContent = `Точек: ${steps}`;
+      draw(a,b,steps);
+    }
+
+    apply.addEventListener('click', (e)=>{ e.preventDefault(); rebuild(); });
+    preset.addEventListener('click', (e)=>{ e.preventDefault(); aI.value = -1; bI.value = 3; hI.value = 0.10; rebuild(); });
+
+    // initial draw for variant 13
+    rebuild();
+  </script>
+</div>
+</body>
+</html>

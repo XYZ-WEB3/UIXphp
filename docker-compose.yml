@@ -1,0 +1,17 @@
+services:
+  php:
+    image: php:8.2-apache
+    container_name: kr22_php_web
+    ports:
+      - "8008:80"
+    volumes:
+      - ./:/var/www/html:rw
+    environment:
+      - APACHE_DOCUMENT_ROOT=/var/www/html
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost/" ]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 5s
+
