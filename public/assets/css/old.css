@@ -1,0 +1,116 @@
+:root {
+    --bg: #f4f1e9;
+    --panel: #fffdf7;
+    --text: #222;
+    --accent: #b36b00;
+    --muted: #6b5b4d;
+}
+* { box-sizing: border-box; }
+body {
+    font-family: 'Times New Roman', serif;
+    background: var(--bg);
+    color: var(--text);
+    margin: 0;
+}
+a { color: var(--accent); }
+.site-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 16px;
+    background: linear-gradient(90deg, #f4e3c3, #fef9e7);
+    border-bottom: 2px solid #d2b48c;
+}
+.brand .title { font-size: 22px; font-weight: bold; }
+.brand .subtitle { color: var(--muted); font-size: 14px; }
+.theme-toggle {
+    background: var(--panel);
+    border: 1px solid #d2b48c;
+    padding: 8px 14px;
+    cursor: pointer;
+    font-size: 14px;
+}
+.top-nav {
+    background: #d2b48c;
+    border-bottom: 2px solid #c19a6b;
+}
+.nav-list {
+    margin: 0;
+    padding: 0 16px;
+    list-style: none;
+    display: flex;
+    gap: 12px;
+}
+.nav-item {
+    position: relative;
+}
+.nav-item > a {
+    display: block;
+    padding: 10px 12px;
+    color: #000;
+    text-decoration: none;
+    font-weight: 600;
+}
+.nav-item:hover > a { background: rgba(0,0,0,0.05); }
+.dropdown {
+    display: none;
+    position: absolute;
+    background: var(--panel);
+    border: 1px solid #c19a6b;
+    padding: 8px 0;
+    list-style: none;
+    min-width: 210px;
+    z-index: 3;
+}
+.nav-item:hover .dropdown { display: block; }
+.dropdown a {
+    display: block;
+    padding: 8px 12px;
+    color: #000;
+    text-decoration: none;
+}
+.dropdown a:hover { background: #f4e3c3; }
+.page {
+    padding: 24px;
+    max-width: 1000px;
+    margin: 0 auto;
+}
+.card {
+    background: var(--panel);
+    border: 1px solid #d2b48c;
+    padding: 16px;
+    border-radius: 4px;
+    margin-bottom: 16px;
+    box-shadow: 0 3px 6px rgba(0,0,0,0.08);
+}
+form label { display: block; margin: 8px 0 4px; }
+input, select, textarea, button {
+    font-family: inherit;
+    font-size: 14px;
+}
+input, select, textarea {
+    width: 100%;
+    padding: 8px;
+    border: 1px solid #c19a6b;
+    border-radius: 4px;
+}
+button, .btn {
+    background: var(--accent);
+    color: #fff;
+    border: none;
+    padding: 10px 16px;
+    border-radius: 4px;
+    cursor: pointer;
+    margin-top: 10px;
+}
+.button-row { display: flex; gap: 10px; flex-wrap: wrap; }
+.table { width: 100%; border-collapse: collapse; margin-top: 8px; }
+.table th, .table td { border: 1px solid #c19a6b; padding: 8px; text-align: center; }
+.site-footer {
+    text-align: center;
+    padding: 16px;
+    background: #f4e3c3;
+    border-top: 2px solid #d2b48c;
+    color: var(--muted);
+}
+.notice { padding: 12px; background: #fff7e6; border: 1px solid #e0c58f; margin-bottom: 12px; }
